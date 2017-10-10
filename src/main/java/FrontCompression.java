@@ -44,8 +44,19 @@ public class FrontCompression {
         /*
          * Complete this function.
          */
+        String[] split = corpus.split("\n");
+        String[] compressed = new String[split.length];
+        String output = "";
+        compressed[0] = split[0];
+        int prefix = 0;
+        output = prefix + " " + compressed[0];
+        for (int i = 1; i < split.length; i++) {
+            prefix = longestPrefix(split[i - 1], split[i]);
+            compressed[i] = split[i].substring(prefix, split[i].length());
+            output = output + "\n" + prefix + " " + compressed[i];
 
-        return "";
+        }
+        return output;
     }
 
     /**
@@ -67,8 +78,27 @@ public class FrontCompression {
         /*
          * Complete this function.
          */
-
-        return "";
+        String[] split = corpus.split("\n");
+        String output = split[0].substring(2, split[0].length());
+        int prefix = 0;
+        String newLine = "";
+        for (int i = 1; i < split.length; i++) {
+          if(split[i].charAt(1) != ' ') {
+              int char1 = (int) split[i].charAt(1);
+              prefix = 10 + char1 - 48;
+              newLine = split[i - 1].substring(3, 2 + prefix) + split[i].substring(2, split[i].length());
+              output = output + "\n" + newLine;
+              split[i] = prefix + " " + newLine;
+          }
+          else {
+          prefix = (int) split[i].charAt(0);
+          prefix = prefix - 48;
+          newLine = split[i - 1].substring(2, 2 + prefix) + split[i].substring(2, split[i].length());
+          output = output + "\n" + newLine;
+          split[i] = prefix + " " + newLine;
+        }
+        }
+        return output;
     }
 
     /**
@@ -82,7 +112,22 @@ public class FrontCompression {
         /*
          * Complete this function.
          */
-        return 0;
+        if (secondString.length() > firstString.length()) {
+        for (int i = 0; i <= firstString.length(); i++) {
+            if (!(firstString.substring(0,  i).equals(secondString.substring(0,  i)))) {
+                return i - 1;
+            }
+        }
+        return firstString.length();
+        }
+        else {
+            for (int i = 0; i <= secondString.length(); i++) {
+                if (!(firstString.substring(0,  i).equals(secondString.substring(0,  i)))) {
+                    return i - 1;
+                }
+            }
+            return secondString.length();
+            }
     }
 
     /**
